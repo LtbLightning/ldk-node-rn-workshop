@@ -1,1 +1,1 @@
-# Genesis 1:3 bdk-flutter
+# ldk-node-rn-workshop
