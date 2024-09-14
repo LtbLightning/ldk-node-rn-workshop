@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "react": "18.3.1",
-    "react-native": "0.75.3"
+    "react-native": "0.75.3",
+    "ldk_node": "git+https://github.com/LtbLightning/ldk-node-rn.git",
+    "react-native-crypto-js": "^1.0.0",
+    "react-native-fs": "^2.20.0",
+    "react-native-popup-menu": "^0.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
