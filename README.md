@@ -22,7 +22,7 @@ The workshop can be done on your own by following the [instructions](INSTRUCTION
 
 ## How to conduct the workshop as an instructor/coordinator
 
-If you are planning to conduct this workshop as an instructor or coordinator, please refer to our [Instructor Guide](INSTRUCTIONS.md) for strategies, tips and additional resources tailored to facilitating the workshop.
+If you are planning to conduct this workshop as an instructor or coordinator, please refer to our [Instructor Guide](INSTRUCTOR_GUIDE.md) for strategies, tips and additional resources tailored to facilitating the workshop.
 
 ## ⚠️ To do before the workshop
 
