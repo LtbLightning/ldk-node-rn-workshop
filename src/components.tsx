@@ -56,7 +56,7 @@ export const Header = () => {
         resizeMode="contain"
       />
       <Text style={{fontWeight: '700', fontSize: 15, textAlign: 'center'}}>
-        {'Demo App \n Ldk Node React Native'}
+        {'Demo App \n Ldk Node RN Workshop'}
       </Text>
       <Image source={require('./assets/ldk_logo.png')} style={styles.img} />
     </View>

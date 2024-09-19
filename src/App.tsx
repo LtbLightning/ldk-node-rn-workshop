@@ -35,24 +35,18 @@ let docDir =
 console.log('Platform Version=====>', `${Platform.Version}`);
 
 let host;
-// let port = 30000; // Port for Esplora server
 let port = 39735;
 let esploaraServer;
 
 if (Platform.OS === 'android') {
-  // host = '127.0.0.1';
-  // host = '192.168.0.216';
   host = '0.0.0.0';
-  // host = '10.0.1.1';
 } else if (Platform.OS === 'ios') {
-  // host = '127.0.0.1';
   host = '0.0.0.0';
-  // host = '44.219.111.31';
 }
 
 // esploaraServer = `http://${host}:${port}`;
-esploaraServer = `https://mutinynet.ltbl.io/api`;
-// esploaraServer = `https://mutinynet.com/api/`;
+// esploaraServer = `https://mutinynet.ltbl.io/api`;
+esploaraServer = `https://mutinynet.com/api/`;
 export const App = (): JSX.Element => {
   const [started, setStarted] = useState(false);
   const [node, setNode] = useState<Node>();
