@@ -89,11 +89,19 @@ export const App = (): JSX.Element => {
       await builder.setGossipSourceRgs('https://mutinynet.ltbl.io/snapshot');
 
       // Set mnemonic and liquidity source for LSPS2
-      const key = await builder.setEntropyBip39Mnemonic(mnemonic);
+      await builder.setEntropyBip39Mnemonic(mnemonic);
+
+      // Make sure this is the correct LSP node address, pubkey, and token
+      const lspNodeAddress = '0.0.0.0:39735'; // Update this if necessary
+      const lspNodePubkey =
+        '025804d4431ad05b06a1a1ee41f22fefeb8ce800b0be3a92ff3b9f594a263da34e';
+      const lspToken = 'JZWN9YLW';
+
+      // Try setting LSPS2 with correct parameters
       await builder.setLiquiditySourceLsps2(
-        '44.219.111.31:39735', // LSP node address
-        '0371d6fd7d75de2d0372d03ea00e8bacdacb50c27d0eaea0a76a0622eff1f5ef2b', // LSP node pubkey
-        'JZWN9YLW', // Token
+        lspNodeAddress,
+        lspNodePubkey,
+        lspToken,
       );
 
       const nodeObj: Node = await builder.build();

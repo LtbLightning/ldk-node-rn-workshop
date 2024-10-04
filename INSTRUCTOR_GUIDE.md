@@ -9,7 +9,7 @@ As an instructor or coordinator, you can conduct this workshop in different ways
 
 ### Live coding
 
-One way is to live code while the participants follow along. You can use the [instructions](INSTRUCTIONS.md) yourself as a guide.
+One way is to live code while the participants follow along. You can use the [instructions](INSTRUCTIONS.md) yourself as a guide in this case and look at the [solutions](SOLUTIONS.md) as to what to code next, while explaining the concepts and code to the participants as you go along.
 
 This approach might be more apt as an introduction for developers with less experience with **React Native** and/or **Bitcoin** who need to be walked through the workshop. It may be better for time-boxed sessions since you can control the pace if you have limited time.
 

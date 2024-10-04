@@ -18,7 +18,7 @@ The main goal of this workshop is to introduce you to the Lightning Development 
 
 ## How to do the workshop on your own
 
-The workshop can be done on your own by following the [instructions](INSTRUCTIONS.md) in this repository.
+The workshop can be done on your own by following the [instructions](INSTRUCTIONS.md) in this repository and self-checking your work by comparing it to the [solutions](SOLUTIONS.md).
 
 ## How to conduct the workshop as an instructor/coordinator
 

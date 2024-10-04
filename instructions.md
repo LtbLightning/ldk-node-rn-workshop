@@ -38,7 +38,11 @@ Ensure that you have the following set up:
 - **ldk_node** package installed (via `npm` or `yarn`)
 - Configure Android/iOS versions with appropriate SDK configurations.
 
-For iOS, ensure the iOS platform version is set to 12.0 and for Android, the minSdkVersion is 23 in the build configuration.
+For iOS, ensure the iOS platform version is set to 14.0 and for Android, the minSdkVersion is 23 in the build configuration.
+
+## Let's code
+
+Try to implement the steps yourself first and only then check the [solution](SOLUTIONS.md).
 
 ## Key Functionalities
 
@@ -58,10 +62,17 @@ const buildNode = async (mnemonic: string) => {
   await builder.setEntropyBip39Mnemonic(mnemonic);
   await builder.setEsploraServer('https://mutinynet.ltbl.io/api');
   await builder.setGossipSourceRgs('https://mutinynet.ltbl.io/snapshot');
+  // Make sure this is the correct LSP node address, pubkey, and token
+  const lspNodeAddress = '0.0.0.0:39735'; // Update this if necessary
+  const lspNodePubkey =
+    '025804d4431ad05b06a1a1ee41f22fefeb8ce800b0be3a92ff3b9f594a263da34e';
+  const lspToken = 'JZWN9YLW';
+
+  // Try setting LSPS2 with correct parameters
   await builder.setLiquiditySourceLsps2(
-    '44.219.111.31:39735',
-    '0371d6fd7d75de2d0372d03ea00e8bacdacb50c27d0eaea0a76a0622eff1f5ef2b',
-    'JZWN9YLW',
+    lspNodeAddress,
+    lspNodePubkey,
+    lspToken,
   );
 
   const nodeObj: Node = await builder.build();
@@ -310,7 +321,7 @@ export const mSatsToSats = (mSats: number) => mSats / 1000 + 'sats';
 
 These are the main functions and their roles in managing a Lightning Network node using the React Native app.
 
-### 9. `Button`
+### `Button`
 
 This is a customizable button component for UI interactions.
 
@@ -324,7 +335,7 @@ export const Button = ({loading, style, title, ...rest}) => {
 };
 ```
 
-### 10. `Header`
+### `Header`
 
 This is the header component that displays the logos and title of the app.
 
@@ -351,7 +362,7 @@ export const Header = () => {
 };
 ```
 
-### 11. `IconButton`
+### `IconButton`
 
 This component renders a small button with customizable styles, mainly used for actions like 'Send', 'Receive', etc.
 
@@ -369,7 +380,7 @@ export const IconButton = ({onPress, title, style, disabled}) => {
 };
 ```
 
-### 12. `ModalView`
+### `ModalView`
 
 This component handles modal popups used in the application for dialogs and user input.
 
@@ -385,7 +396,7 @@ export const ModalView = props => {
 };
 ```
 
-### 13. `BoxRow`
+### `BoxRow`
 
 This component is used to display a key-value pair in the form of a box row, often used to show node information.
 
@@ -406,7 +417,7 @@ export const BoxRow = ({title, value, color}) => {
 };
 ```
 
-### 14. `InvoiceModal`
+### `InvoiceModal`
 
 This component displays a modal with the generated Lightning invoice.
 
@@ -428,7 +439,7 @@ export const InvoiceModal = ({visible, onClose, invoice}) => {
 };
 ```
 
-### 15. `ReceiveModal`
+### `ReceiveModal`
 
 This modal component handles receiving payments via Lightning Network, allowing the user to input the amount.
 
