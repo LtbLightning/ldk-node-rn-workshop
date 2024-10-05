@@ -121,7 +121,13 @@ export const styles = StyleSheet.create({
     borderColor: AppColors.blue,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
-  channelListView: {flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, marginVertical: 7},
+  channelListView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 7,
+  },
   channelIcon: {width: 25, height: 25},
   channelSideView: {width: '10%'},
   channelMainView: {width: '85%'},
@@ -133,7 +139,12 @@ export const styles = StyleSheet.create({
     marginLeft: 4,
   },
   fullWidthBtn: {width: '100%'},
-  closeButton: {backgroundColor: AppColors.buttonOrange, position: 'absolute', right: 10, top: 10},
+  closeButton: {
+    backgroundColor: AppColors.buttonOrange,
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
   leftAlign: {alignSelf: 'flex-start'},
 
   boxRow: {
@@ -166,6 +177,7 @@ export const styles = StyleSheet.create({
   invoiceText: {
     marginVertical: 20,
     textAlign: 'center',
+    fontSize: 16,
   },
   invoiceModal: {
     margin: 20,

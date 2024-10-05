@@ -45,8 +45,8 @@ if (Platform.OS === 'android') {
 }
 
 // esploaraServer = `http://${host}:${port}`;
-// esploaraServer = `https://mutinynet.ltbl.io/api`;
-esploaraServer = `https://mutinynet.com/api/`;
+esploaraServer = `https://mutinynet.ltbl.io/api`;
+// esploaraServer = `https://mutinynet.com/api/`;
 export const App = (): JSX.Element => {
   const [started, setStarted] = useState(false);
   const [node, setNode] = useState<Node>();
@@ -66,12 +66,17 @@ export const App = (): JSX.Element => {
     try {
       const storagePath = docDir;
       console.log('storagePath====>', storagePath);
+      // const ldkPort =
+      //   Platform.OS === 'ios'
+      //     ? Platform.Version == '17.0'
+      //       ? 2000
+      //       : 2001
+      //     : 8081;
+
       const ldkPort =
-        Platform.OS === 'ios'
-          ? Platform.Version == '17.0'
-            ? 2000
-            : 2001
-          : 8081;
+        Platform.OS === 'ios' && parseFloat(Platform.Version) >= 17
+          ? 2000
+          : 2001;
 
       // Initialize the node config
       const config = await new Config().create(
@@ -80,7 +85,6 @@ export const App = (): JSX.Element => {
         'signet', // Ensure it's set to 'signet'
         [new NetAddress(host, ldkPort)],
       );
-
       const builder = await new Builder().fromConfig(config);
 
       // Set network to signet, esplora server, and RGS source
@@ -92,17 +96,18 @@ export const App = (): JSX.Element => {
       await builder.setEntropyBip39Mnemonic(mnemonic);
 
       // Make sure this is the correct LSP node address, pubkey, and token
-      const lspNodeAddress = '0.0.0.0:39735'; // Update this if necessary
+      const lspNodeAddress = '44.219.111.31:39735'; // Update this if necessary
       const lspNodePubkey =
-        '025804d4431ad05b06a1a1ee41f22fefeb8ce800b0be3a92ff3b9f594a263da34e';
+        '0371d6fd7d75de2d0372d03ea00e8bacdacb50c27d0eaea0a76a0622eff1f5ef2b';
       const lspToken = 'JZWN9YLW';
 
       // Try setting LSPS2 with correct parameters
-      await builder.setLiquiditySourceLsps2(
+      const setLsps2Response = await builder.setLiquiditySourceLsps2(
         lspNodeAddress,
         lspNodePubkey,
         lspToken,
       );
+      console.log('LSPS2 response:', setLsps2Response);
 
       const nodeObj: Node = await builder.build();
       setNode(nodeObj);
@@ -176,9 +181,14 @@ export const App = (): JSX.Element => {
 
   const listChannels = async () => {
     try {
-      const list = await node?.listChannels();
+      if (!node) {
+        throw new Error('Node is not available.');
+      }
+
+      const list = await node.listChannels();
       setChannels(list);
       console.log('Channels:', list);
+
       list.forEach(channel => {
         console.log('Channel details:', channel);
       });
@@ -236,17 +246,18 @@ export const App = (): JSX.Element => {
         const invoice = await node.receiveViaJitChannel(
           satsToMsats(parseInt(amount, 10)),
           'test',
-          3600,
+          3600, // expires in 1 hour
         );
-        // const invoice = await node.receiveViaJitChannel(parseInt(amount), 'test', 3600);
         setInvoice(JSON.stringify(invoice).replace(/"/g, ''));
         setShowReceiveModal(false);
         setReceiveAmount('');
         setShowInvoiceModal(true);
         console.log('Invoice generated:', invoice);
       } catch (e) {
-        console.error('Error receiving payment:', e);
+        console.error('Error receiving payment via JIT Channel:', e);
       }
+    } else {
+      console.warn('Node or amount is not available for receiving payment');
     }
   };
 
