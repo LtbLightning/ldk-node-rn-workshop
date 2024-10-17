@@ -10,9 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.0.0",
+    "ldk_node": "git+https://github.com/LtbLightning/ldk-node-rn.git",
     "react": "18.3.1",
     "react-native": "0.75.3",
-    "ldk_node": "git+https://github.com/LtbLightning/ldk-node-rn.git",
+    "react-native-bip39": "^2.3.0",
     "react-native-crypto-js": "^1.0.0",
     "react-native-fs": "^2.20.0",
     "react-native-popup-menu": "^0.16.1"

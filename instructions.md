@@ -57,26 +57,14 @@ The Lightning Node is the backbone of this application. The `buildNode` function
 
 ```typescript
 const buildNode = async (mnemonic: string) => {
-  const builder = await new Builder().fromConfig(config);
-
-  await builder.setEntropyBip39Mnemonic(mnemonic);
-  await builder.setEsploraServer('https://mutinynet.ltbl.io/api');
-  await builder.setGossipSourceRgs('https://mutinynet.ltbl.io/snapshot');
-  // Make sure this is the correct LSP node address, pubkey, and token
-  const lspNodeAddress = '0.0.0.0:39735'; // Update this if necessary
-  const lspNodePubkey =
-    '025804d4431ad05b06a1a1ee41f22fefeb8ce800b0be3a92ff3b9f594a263da34e';
-  const lspToken = 'JZWN9YLW';
-
-  // Try setting LSPS2 with correct parameters
-  await builder.setLiquiditySourceLsps2(
-    lspNodeAddress,
-    lspNodePubkey,
-    lspToken,
-  );
-
-  const nodeObj: Node = await builder.build();
-  await nodeObj.start();
+  // TODO: Implement the buildNode function
+  // 1. Create a new Builder instance from the config
+  // 2. Set the entropy using the provided mnemonic
+  // 3. Set the Esplora server
+  // 4. Set the Rapid Gossip Sync source
+  // 5. Configure LSPS2 for JIT channels
+  // 6. Build and start the node
+  // 7. Return the node object or necessary information
 };
 ```
 
@@ -90,15 +78,14 @@ export const MnemonicView = ({
 }: {
   buildNodeCallback: Function;
 }) => {
-  const [mnemonic, setMnemonic] = useState('');
-
-  return (
-    <View>
-      <Text>Enter Mnemonic</Text>
-      <TextInput multiline value={mnemonic} onChangeText={setMnemonic} />
-      <Button title="Start Node" onPress={() => buildNodeCallback(mnemonic)} />
-    </View>
-  );
+  // TODO: Implement the MnemonicView component
+  // 1. Create a state variable for the mnemonic using useState
+  // 2. Return a View component containing:
+  //    a. A Text component with the label "Enter Mnemonic"
+  //    b. A TextInput component for entering the mnemonic
+  //    c. A Button component to start the node
+  // 3. Connect the state variable to the TextInput
+  // 4. Set up the Button to call buildNodeCallback with the mnemonic when pressed
 };
 ```
 
@@ -107,47 +94,12 @@ export const MnemonicView = ({
 Users can open a Lightning channel using the `OpenChannelModal`. The user must provide the necessary details (nodeId, IP address, port, and amounts) to open the channel.
 
 ```typescript
-export const OpenChannelModal = ({openChannelCallback, cancelCallback}) => {
-  const [channelDetails, setChannelDetails] = useState({
-    nodeId: '',
-    ip: '',
-    port: '',
-    amount: '',
-    counterPartyAmount: '',
-  });
-
-  const updateDetails = (key: any, value: any) => {
-    setChannelDetails(prev => ({...prev, [key]: value}));
-  };
-
-  return (
-    <ModalView>
-      <TextInput
-        placeholder="Node ID"
-        onChangeText={e => updateDetails('nodeId', e)}
-      />
-      <TextInput
-        placeholder="IP Address"
-        onChangeText={e => updateDetails('ip', e)}
-      />
-      <TextInput
-        placeholder="Port"
-        onChangeText={e => updateDetails('port', e)}
-      />
-      <TextInput
-        placeholder="Amount in sats"
-        onChangeText={e => updateDetails('amount', e)}
-      />
-      <TextInput
-        placeholder="Counterparty Amount"
-        onChangeText={e => updateDetails('counterPartyAmount', e)}
-      />
-      <Button
-        title="Submit"
-        onPress={() => openChannelCallback(channelDetails)}
-      />
-    </ModalView>
-  );
+const openChannelCallback = async (params: ChannelParams) => {
+  // TODO: Implement the openChannelCallback function
+  // 1. Create a NetAddress object from the IP and port
+  // const addr = new NetAddress(params.ip, parseInt(params.port));
+  // 2. Call the connectOpenChannel method on the node
+  // 3. Log the result
 };
 ```
 
@@ -157,14 +109,12 @@ Payments are handled through the `PaymentModal`. Users can either send or receiv
 
 ```typescript
 const handleReceive = async (amount: string) => {
-  if (node && amount) {
-    const invoice = await node.receiveViaJitChannel(
-      satsToMsats(parseInt(amount, 10)),
-      'test',
-      3600,
-    );
-    console.log('Invoice generated:', invoice);
-  }
+  // TODO: Implement the handleReceive function
+  // 1. Check if the node is initialized
+  // 2. Convert the amount to millisatoshis
+  // 3. Generate an invoice using receiveViaJitChannel
+  // 4. Log and return the generated invoice
+  // return invoice;
 };
 ```
 
@@ -174,12 +124,14 @@ When generating invoices, the `handleReceiveBolt11Payment` method creates a BOLT
 
 ```typescript
 const handleReceiveBolt11Payment = async (amount: string) => {
-  const invoice = await node.receiveViaJitChannel(
-    satsToMsats(parseInt(amount, 10)),
-    'test',
-    3600,
-  );
-  setInvoice(JSON.stringify(invoice));
+  // TODO: Implement the handleReceiveBolt11Payment function
+  // 1. Use node.receiveViaJitChannel to generate a BOLT11 invoice
+  // 2. Pass the following parameters to receiveViaJitChannel:
+  //    - Amount in millisatoshis (convert from satoshis)
+  //    - A description string (e.g., 'test')
+  //    - Expiry time in seconds (e.g., 3600 for 1 hour)
+  // 3. Store the generated invoice in the component's state using setInvoice
+  // 4. Convert the invoice to a JSON string before storing
 };
 ```
 
@@ -200,7 +152,7 @@ We just need to use it in our app by configuring the url of the Rapid Gossip Syn
 
 - https://mutinynet.ltbl.io/snapshot for the Mutinynet Signet
 - https://testnet.ltbl.io/snapshot for Testnet
-- https://rapidsync.lightningdevkit.org/snapshot for Mainnet
+- https://mainnet.ltbl.io/snapshot for Mainnet
 
 Now add the url of the network you want to use to the node builder function:
 
@@ -218,7 +170,20 @@ Various Liquidity Service Providers and Lightning wallets and developers are wor
 
 LDK Node already has the LSPS2 client functionality implemented and we can again just use it in our app by configuring the LSPS2 compatible LSP we want to use.
 
-### 8. Just-In-Time (JIT) Channels
+### 8. LSPS2 Liquidity Source configuration
+
+To configure the LSPS2 compatible LSP you want to use, you need to know the public key/node id and the address of the Lightning Node of the LSP. Possibly an access token is also needed to use an LSP and get specific quotes or liquidity capacity. You can get this information from the LSP you want to use.
+
+For example, the following is the info of a node of the [C= (C equals)](https://cequals.xyz/) LSP on Mutinynet:
+
+const lspNodeAddress = '44.219.111.31:39735'; // Update this if necessary
+const lspNodePubkey ='0371d6fd7d75de2d0372d03ea00e8bacdacb50c27d0eaea0a76a0622eff1f5ef2b';
+const lspToken = 'JZWN9YLW';
+
+> [!TIP]
+> The `ldk_node` package offers some useful `Builder` constructors to easily set up a Lightning Node for a specific network (e.g. `Builder.mutinynet()` or `Builder.testnet()`) with default configurations and with services as Esplora, Rapid Gossip Sync already configured. Only thing you need to do is set the mnemonic. And you can also overwrite any default configuration as with a normal `Builder` instance, for example to set an LSPS2 compatible LSP with your own token.
+
+### 9. Just-In-Time (JIT) Channels
 
 JIT channels enable receiving payments without pre-existing inbound liquidity.
 
@@ -226,89 +191,93 @@ JIT channels enable receiving payments without pre-existing inbound liquidity.
 await node.receiveViaJitChannel(satsToMsats(amount), 'Payment Memo', 3600);
 ```
 
-### 9. `onChainBalance`
+### 10. `onChainBalance`
 
 This function retrieves the total on-chain balance of the node's wallet.
 
 ```typescript
 const onChainBalance = async () => {
-  await node?.syncWallets();
-  const balance = await node?.totalOnchainBalanceSats();
-  console.log('On-chain balance:', balance);
+  // TODO: Implement the onChainBalance function
+  // 1. Synchronize the node's wallets
+  // 2. Retrieve the total on-chain balance in satoshis
+  // 3. Log the balance to the console
 };
 ```
 
-### 10. `newOnchainAddress`
+### 11. `newOnchainAddress`
 
 This function generates a new on-chain address for receiving funds.
 
 ```typescript
 const newOnchainAddress = async () => {
-  let addr = await node?.newOnchainAddress();
-  console.log('New on-chain address:', addr?.addressHex);
+  // TODO: Implement the newOnchainAddress function
+  // 1. Generate a new on-chain address using the node
+  // 2. Log the new address to the console
 };
 ```
 
-### 11. `openChannelCallback`
+### 12. `openChannelCallback`
 
 This function opens a new Lightning channel by providing necessary parameters such as the node ID, IP address, and amounts.
 
 ```typescript
 const openChannelCallback = async (params: ChannelParams) => {
-  const addr = new NetAddress(params.ip, parseInt(params.port));
-  let opened = await node?.connectOpenChannel(
-    params.nodeId,
-    addr,
-    parseInt(params.amount),
-    satsToMsats(parseInt(params.counterPartyAmount)),
-    null,
-    true,
-  );
-  console.log('Channel opened:', opened);
+  // TODO: Implement the openChannelCallback function
+  // 1. Create a NetAddress object from the IP and port
+  // 2. Call the connectOpenChannel method on the node
+  // 3. Log the result of the channel opening attempt
 };
 ```
 
-### 12. `listChannels`
+### 13. `listChannels`
 
 This function lists all currently open Lightning channels.
 
 ```typescript
 const listChannels = async () => {
-  const list = await node?.listChannels();
-  console.log('Channels:', list);
+  // TODO: Implement the listChannels function
+  // 1. Retrieve the list of channels from the node
+  // 2. Log the list of channels to the console
 };
 ```
 
-### 13. `handleReceive`
+### 14. `handleReceive`
 
 This function generates a BOLT11 invoice for receiving payments via Just-in-Time (JIT) channels.
+In the Lightning Network, the standard way to request payments is by creating invoices. Invoices with a prefixed amount are most common and most secure, but invoices without a prefixed amount can also be created, they are generally called zero-amount invoices. You can create both with LDK Node, through the `receive` and `receiveVariableAmount` functions of a `Bolt11Payment` instance. Because we don't have any channels yet, we will use a receive via JIT channel for now, using `receiveViaJitChannel` and `receiveVariableAmountViaJitChannel` respectively.
 
 ```typescript
 const handleReceive = async (amount: string) => {
-  const invoice = await node.receiveViaJitChannel(
-    satsToMsats(parseInt(amount, 10)),
-    'Test Memo',
-    150,
-  );
-  console.log('Invoice generated:', invoice);
+  // TODO: Implement the handleReceive function
+  // 1. Check if the node is initialized
+  // 2. Convert the amount to millisatoshis
+  // 3. Generate an invoice using receiveViaJitChannel
+  // 4. Log and return the generated invoice
+  // return invoice;
 };
 ```
 
-### 14. `testChannelConfig`
+#### Bolt12
+
+LDK Node already implements the more recent Bolt12 standard for invoices through static offers. We will not use this in this workshop, but you can try it out for yourself by using the `Bolt12Payment` class and its functions.
+
+### 15. `testChannelConfig`
 
 This function sets specific channel configurations, including forwarding fees and cltv expiry delta.
 
 ```typescript
 const testChannelConfig = async () => {
-  let channelConfig = await new ChannelConfig().create();
-  await channelConfig.setAcceptUnderpayingHtlcs(true);
-  await channelConfig.setCltvExpiryDelta(150);
-  await channelConfig.setForwardingFeeBaseMsat(4000);
-  console.log('Channel config set:', channelConfig);
+  // TODO: Implement the testChannelConfig function
+  // 1. Create a new ChannelConfig instance
+  // 2. Configure the channel settings:
+  //    a. Set accept underpaying HTLCs to true
+  //    b. Set CLTV expiry delta to 150
+  //    c. Set forwarding fee base to 4000 millisatoshis
+  // 3. Log the configured channel config
 };
 ```
 
-### 15. Utility Functions: `satsToMsats` and `mSatsToSats`
+### 16. Utility Functions: `satsToMsats` and `mSatsToSats`
 
 These utility functions are used to convert between different units (satoshis and millisatoshis).
 
